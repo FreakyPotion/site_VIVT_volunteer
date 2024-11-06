@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class EventsController extends Controller
@@ -13,5 +14,11 @@ class EventsController extends Controller
         // $events = Event::where('Дата', '>=', $currentDate)->get();
         $events = Event::all();
         return view('events', compact('events'));
+    }
+
+    public function events_details($eventid) {
+        $events = Event::where('Event_ID', '=', $eventid)->get();
+        $users = User::all();
+        return view('eventsdetail', compact('events', 'users'));
     }
 }

@@ -27,6 +27,18 @@
         padding-left: 15px; /* Отступы внутри контейнера */
         padding-right: 15px;
       }
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 10px;
+        width: 100%;
+        max-width: 1600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .item {
+        padding: 10px;
+      }
       .text-container {
         width: 180px;  /* Ограничение по ширине */
         height: 80px; /* Ограничение по высоте */
@@ -50,6 +62,7 @@
       .custom-button:hover {
         background-color: #193897;
       }
+      
     </style>
 </head>
 <body>

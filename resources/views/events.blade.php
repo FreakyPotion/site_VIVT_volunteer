@@ -13,8 +13,8 @@
                 <div class="bordered-box">
                     <img src="{{ $event->Изображение }}" style="width: 150px; height: 150px; object-fit: cover">
                     <span style="font-size: 16px; font-weight: bold;">{{ $event->Название }}</span>
-                    <div class="gradient-text text-container" style="font-size: 12px; font-weight: bold; text-align: justify;">{{ $event->Описание }}</div>
-                    <button class="custom-button">Подробнее</button>
+                    <div class="gradient-text text-container" style="font-size: 12px; text-align: justify;">{{ $event->Описание }}</div>
+                    <a href="{{ route('events.details', ['id' => $event->Event_ID]) }}" class="custom-button text-decoration-none">Подробнее</a>
                 </div>
             @endforeach
             </div>
