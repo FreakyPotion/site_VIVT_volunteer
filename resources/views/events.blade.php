@@ -2,6 +2,7 @@
 
 @section('content')
 
+    
     <div class="main-container" style="text-align: center;">
         
         @if($events->isEmpty())
