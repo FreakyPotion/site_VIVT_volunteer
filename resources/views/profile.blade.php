@@ -59,13 +59,13 @@
 
       /* Текст красным для кнопки "Выйти из аккаунта" */
       .sidebar .logout {
-          color: #dc3545; /* Красный цвет текста */
+          color: #c82333; /* Красный цвет текста */
           font-weight: bold;
           margin-top: 30px; /* Отступ перед кнопкой */
       }
 
       .sidebar .logout:hover {
-          color: #c82333; /* Темнее красный при наведении */
+          color: #880E0E; /* Темнее красный при наведении */
       }
 
       .profile-info {
@@ -85,6 +85,8 @@
           height: 100px;
           border-radius: 50%;
           background-color: #ddd;
+          background-size: cover; 
+          background-position: center;
           display: inline-block;
           margin-right: 20px;
           position: relative;
@@ -128,58 +130,87 @@
 
   @section('content')
 
-  <div class="profile-container-parent">
-  <div class="profile-container">
-      <div class="header">
-          <h1>ВИВТ.Волонтер</h1>
-      </div>
-      <div class="main-content">
-          <div class="sidebar">
-              <div>Личная информация</div>
-              <div>Безопасность</div>
-              <div>Мои заявки</div>
-              <!-- Добавляем класс "logout" для красного текста -->
-              <div class="logout">Выйти из аккаунта</div>
-          </div>
-          <!-- Блок с аватаром, именем и ролью -->
-          <div class="profile-info">
-              <div class="profile-top">
-                  <div class="profile-photo">
-                      <button id="avatarButton" onclick="document.getElementById('avatarInput').click()">Фото</button>
-                      <input type="file" id="avatarInput" style="display:none;" accept="image/*" onchange="previewAvatar(event)">
-                  </div>
-                  <div>
-                      <div class="profile-name">Имя Фамилия</div>
-                      <div class="profile-role">Роль</div>
-                  </div>
-              </div>
-              <!-- Контент вкладок, теперь ниже блока с аватаром -->
-              <div class="content-area">
-                  Контент вкладок
-              </div>
-          </div>
-      </div>
-      <div class="footer">
-          2024 All Rights Reserved
-      </div>
-  </div>
+<div class="profile-container-parent">
+    <div class="profile-container">
+        <div class="main-content">
+            <div class="sidebar">
+                <div>Личная информация</div>
+                <div>Безопасность</div>
+                <div>Мои заявки</div>
+                <!-- Добавляем класс "logout" для красного текста -->
+                <div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <!-- Кнопка "Выйти" -->
+                        <button class="logout" style="border: none; padding: 0; background: none;" type="submit">Выйти из аккаунта</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Блок с аватаром, именем и ролью -->
+            <div class="profile-info">
+                @foreach($users as $user)
+                <div class="profile-top">
+                    <div class="profile-photo" id="photoContainer" onclick="document.getElementById('avatarInput').click()" style="background-image: url({{$user->{'Фото профиля'} }});">
+                        <input type="file" id="avatarInput" style="display:none;" accept="image/*" onchange="uploadAvatar(event)">
+                    </div>
+                    <div>
+                        <div class="profile-name">{{$user-> Фамилия}} {{$user-> Имя}}</div>
+                        @if($user->Role_ID == 1)
+                            <div class="profile-role">Волонтёр</div>
+                        @elseif($user->Role_ID == 0)
+                            <div class="profile-role">Организатор</div>
+                        @endif
 
-  <script>
-      function previewAvatar(event) {
-          const file = event.target.files[0];
-          const avatarButton = document.getElementById('avatarButton');
-          if (file) {
-              const reader = new FileReader();
-              reader.onload = function(e) {
-                  const photo = document.querySelector('.profile-photo');
-                  photo.style.backgroundImage = `url(${e.target.result})`;
-                  photo.style.backgroundSize = 'cover';
-                  photo.style.backgroundPosition = 'center';
-                  avatarButton.style.display = 'none'; // Скрыть кнопку "Фото"
-              };
-              reader.readAsDataURL(file);
-          }
-      }
-  </script>
+                    </div>
+                </div>
+
+                <div class="content-area">
+                    Контент вкладок
+                </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="footer">
+            2024 All Rights Reserved
+        </div>
+    </div>
+</div>
+
+    <script>
+        function uploadAvatar(event) {
+            console.log('Файл выбран');
+            const file = event.target.files[0];
+            const photoContainer = document.getElementById('photoContainer');
+
+            if (file) {
+                const formData = new FormData();
+                formData.append('avatar', file);
+
+                console.log('Файл отправлен');
+
+                // Отправляем файл на сервер
+                fetch('/lk/upload-avatar', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Laravel CSRF токен
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        // Обновляем background-image
+                        photoContainer.style.backgroundImage = `url(${data.avatarUrl})`;
+                    } else {
+                        alert('Размер загружаемого файла не должен превышать 8 мегабайт');
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+            }
+        }
+    </script>
 
 @endsection

@@ -9,13 +9,18 @@
             <span style="font-size: 32px; font-weight: bold; ">ПОКА НЕТ НИ ОДНОГО СОБЫТИЯ...</span>
         @else
             <span style="display: inline-block; font-size: 32px; font-weight: bold; margin-bottom: 20px;">АКТИВНЫЕ СОБЫТИЯ</span>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 50px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 30px;">
             @foreach($events as $event)
-                <div class="bordered-box">
-                    <img src="{{ $event->Изображение }}" style="width: 150px; height: 150px; object-fit: cover">
-                    <span style="font-size: 16px; font-weight: bold;">{{ $event->Название }}</span>
-                    <div class="gradient-text text-container" style="font-size: 12px; text-align: justify;">{{ $event->Описание }}</div>
-                    <a href="{{ route('events.details', ['id' => $event->Event_ID]) }}" class="custom-button text-decoration-none">Подробнее</a>
+                <div>
+                    <span style="font-size: 24px; font-weight: bold; padding: 10px;">{{ $event->Название }}</span>
+                    <a href="{{ route('events.details', ['id' => $event->Event_ID]) }}">
+                        <div class="image-container">
+                            <img src="{{ $event->Изображение }}" style="width: 500px; height: 300px; object-fit: contain;  border-radius: 30px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                            <div class="overlay">
+                                <div class="text text-container">{{ $event->Описание }}</div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             @endforeach
             </div>

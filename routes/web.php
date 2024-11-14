@@ -14,9 +14,7 @@ Route::middleware([AuthChecker::class])->group(function ()
     Route::get('/authorization', [function () {
         return view('authorization');
     }])->name('authorization');
-    Route::get('/lk', [function () {
-        return view('profile');
-    }])->name('profile');
+    Route::get('/lk', [UsersController::class, 'load_user_data'])->name('profile');
 });
 
 Route::get('/authorization', [function () {
@@ -29,3 +27,5 @@ Route::get('/registration', [function () {
 
 Route::post('/authorization', [AuthController::class, 'login']);
 Route::post('/lk', [AuthController::class, 'logout'])->name('logout');
+Route::post('/lk/upload-avatar', [UsersController::class, 'upload_avatar'])->name('upload.avatar');
+
