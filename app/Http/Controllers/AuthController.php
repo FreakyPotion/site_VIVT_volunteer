@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -20,12 +21,19 @@ class AuthController extends Controller
         // Дополнительная проверка в базе данных
         $user = User::where('E-Mail', $request->email)
                     ->where('Пароль', $request->password)
-                    ->first(); // Берем первого найденного
-
+                    ->first(); // Берем первого найденного         
         // Если пользователь найден и пароль совпадает
         if ($user) {
+            if ($user->blocked == true) {
+                return back()->withErrors([
+                    'email' => 'Аккаунт заблокирован.',
+                ]);
+            }
             Auth::login($user); // Логиним пользователя
-            return redirect()->intended('/'); // Перенаправление на защищенную страницу
+            if ($user->Role_ID == 3) {
+                return redirect()->route('admin.panel');
+            }
+            return redirect()->route('main.page'); // Перенаправление на защищенную страницу
         }
 
         // Если аутентификация не прошла
@@ -38,6 +46,6 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('authorization');
+        return redirect()->route('main.page');
     }
 }

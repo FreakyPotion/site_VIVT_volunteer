@@ -58,18 +58,18 @@
       .btn-primary {
           width: 100%;
           padding: 12px;
-          background: linear-gradient(90deg, #1C4BAA, #4B94E3);
+          background: #1C4BAA;
           border: none;
           color: white;
           font-size: 16px;
-          border-radius: 5px;
+          border-radius: 15px;
           cursor: pointer;
           transition: background-color 0.3s;
           margin-top: 20px;
       }
 
       .btn-primary:hover {
-          background: linear-gradient(90deg, #00264d, #4d94ff);
+          background: #133477;
       }
 
       .btn-secondary {
@@ -87,6 +87,12 @@
           margin-top: 10px;
       }
 
+      .alert-danger {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 15px;
+      }
+
   </style>
 </head>
 <body>
@@ -99,12 +105,20 @@
 
             <!-- Кнопки "Регистрация" и "Забыли пароль?" -->
             <div class="btn-group">
-                <button type="button" class="btn-secondary">Регистрация</button>
-                <button type="button" class="btn-secondary">Забыли пароль?</button>
+                <a href="/registration" class="btn-secondary text-decoration-none">Регистрация</button>
+                <a href="/" class="btn-secondary text-decoration-none">Забыли пароль?</button>
             </div>
 
             <!-- Кнопка "Войти" -->
             <button type="submit" class="btn-primary">Войти</button>
+            <!-- Сообщения об успехе или ошибке -->
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <span>{{ $error }}</span>
+                    @endforeach
+                </div>
+            @endif
       </form>
   </div>
 </body>

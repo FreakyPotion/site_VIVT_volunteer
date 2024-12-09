@@ -8,7 +8,7 @@
         @if($events->isEmpty())
             <span class="events-text-annotation">Пока нет ни одного события</span>
         @else
-            <span class="events-text-annotation border-bottom-thick">Активные события</span>
+            <span class="events-text-annotation border-bottom-thick">Прошедшие события</span>
             <div class="events-grid">
                 @foreach($events as $index => $event)
                     <div class="event-container">
@@ -26,10 +26,6 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
-            <!-- Пагинация -->
-            <div class="pagination">
-                {{ $events->links() }}
             </div>
         @endif
     </div>

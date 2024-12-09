@@ -68,8 +68,8 @@
         color: #880E0E; /* Темнее красный при наведении */
     }
 
-    .profile-info {
-        width: 75%;
+    .profile-info-other-user {
+        width: 100%;
         padding: 20px;
         display: flex;
         flex-direction: column; /* Структура вертикальная */
@@ -157,112 +157,6 @@
         font-weight: bold;
         font-size: 14px;
         white-space: nowrap; /* Запрещает перенос текста */
-    }
-
-    /* Стили для активной вкладки */
-    .tab-content {
-        display: none;
-    }
-
-    .tab-content.active {
-        display: block;
-    }
-
-    .input-field {
-        margin-bottom: 15px;
-    }
-
-    .input-field label {
-        display: block;
-        font-size: 14px;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 5px;
-    }
-
-    .input-field input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 15px;
-        font-size: 14px;
-    }
-
-    .btn-save {
-        width: 25%;
-        background: #1C4BAA;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 15px;
-        cursor: pointer;
-        margin-left: 300px;
-    }
-
-    .btn-password{
-        width: 50%;
-        background: #1C4BAA;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 15px;
-        cursor: pointer;
-        margin-left: 0px;
-    }
-
-    .btn-save:hover, .btn-password:hover {
-        background: #133477;
-    }
-
-    .dropdown-container {
-        position: relative;
-        width: 100%;
-    }
-
-    .dropdown-select {
-        width: 100%;
-        padding: 9px;
-        background-color: #f0f0f0;
-        border: 1px solid #ddd;
-        border-radius: 15px;
-        text-align: left;
-        cursor: pointer;
-        margin-bottom: 10px;
-    }
-
-    .dropdown-list {
-        display: none;
-        position: absolute;
-        width: 100%;
-        max-height: 150px;
-        overflow-y: auto;
-        border: 1px solid #ddd;
-        border-radius: 15px;
-        background: white;
-        z-index: 1;
-        top: 50px;
-    }
-
-    .dropdown-list.active {
-        display: block;
-    }
-
-    .dropdown-list div {
-        padding: 10px;
-        cursor: pointer;
-    }
-
-    .dropdown-list div:hover {
-        background-color: #eee;
-    }
-
-    input[type="date"], input[type="email"] {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        box-sizing: border-box;
-        border-radius: 15px;
-        margin-bottom: 10px;
     }
 
     .column {
@@ -368,70 +262,24 @@
         background-color: #1C4BAA;
         color: white;
     }
-
-    .custom-button-red-profile {
-        background-color: white;
-        color: #880E0E;
-        padding: 8px 12px;
-        border: 1px solid #880E0E;
-        border-radius: 15px;
-        font-size: 16px;
-        width: 100%;
-        cursor: pointer;
-        margin-top: 30px;
-        transition: background-color 0.3s ease;
-    }
-
-    .custom-button-red-profile:hover {
-        background-color: #880E0E;
-        color: white;
-    }
-
-    .custom-button-default-profile {
-        background-color: white;
-        color: #1C4BAA;
-        padding: 8px 12px;
-        border: 1px solid #1C4BAA;
-        border-radius: 15px;
-        font-size: 16px;
-        cursor: pointer;
-        width: 100%;
-        margin-top: 5px;
-        margin-bottom:5px;
-        transition: background-color 0.3s ease;
-    }
-
-    .custom-button-default-profile:hover {
-        background-color: #1C4BAA;
-        color: white;
-    }
 @endsection
 
 @section('content')
+
 <div class="profile-container-parent">
     <div class="profile-container">
-        <div class="main-content">
-            
-            <div class="sidebar">
-                <button class="custom-button-default-profile" onclick="showTab('info')">Личная информация</button>
-                <button class="custom-button-default-profile" onclick="showTab('security')">Безопасность</button>
-                <button class="custom-button-default-profile" onclick="showTab('events')">Мои события</button>
-
-                <!-- Добавляем класс "logout" для красного текста -->
-                <div>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <!-- Кнопка "Выйти" -->
-                        <button class="custom-button-red-profile" type="submit">Выйти из аккаунта</button>
-                    </form>
+        <div class="button-back-row">
+            <a onclick="history.back()" class="button-back-text">
+                <div class="button-back-container">
+                    <img class="button-back-img" src="/storage/icons/back_icon.png">
+                    <span>Назад</span>
                 </div>
-            </div>
-            <!-- Блок с аватаром, именем и ролью -->
-            <div class="profile-info">
+            </a>
+        </div>
+        <div class="main-content">
+            <div class="profile-info-other-user">
                 <div class="profile-top">
-                    <div class="profile-photo" id="photoContainer" onclick="document.getElementById('avatarInput').click()" style="background-image: url({{$user->{'Фото профиля'} }});">
-                        <input type="file" id="avatarInput" style="display:none;" accept="image/*" onchange="uploadAvatar(event)">
-                    </div>
+                    <div class="profile-photo" style="background-image: url({{$user->{'Фото профиля'} }});"></div>
                     <div>
                         <div class="profile-name" id="profileName">{{$user-> Фамилия}} {{$user-> Имя}}</div>
                             @if($user->Role_ID == 1)
@@ -452,90 +300,8 @@
                 @endif
             
             <div class="content-area">
-                
-                <div id="info" class="tab-content active">
-                <!-- Поля для ввода -->
-                    <form id="changeDataForm" method="POST" action>
-                        <div class="column">
-                            <!-- Первая колонка -->
-                            <div>
-                                <div class="input-field">
-                                    <label for="firstName">Имя</label>
-                                    <input type="text" id="firstName" value="{{$user->Имя}}">
-                                </div>
-                                
-                                <div class="input-field">
-                                    <label for="lastName">Фамилия</label>
-                                    <input type="text" id="lastName" value="{{$user->Фамилия}}">
-                                </div>
-                                
-                                <div class="input-field">
-                                    <label for="thirdName">Отчество</label>
-                                    <input type="text" id="thirdName" value="{{$user->Отчество}}">
-                                </div>
-
-                                <div class="input-field">
-                                    <label for="birthDate">Дата рождения</label>
-                                    <input type="date" id="birthDate" name="birthDate" title="Участнику должно быть не менее 16 лет" value="{{ $user->{'Дата рождения'} }}" required>
-                                </div>
-                            </div>
-
-                            <!-- Вторая колонка -->
-                            <div>
-                                <div class="input-field">
-                                    <label for="phone">Телефон</label>
-                                    <input type="text" maxlength="10" pattern="\d+" name="phone" placeholder="без 8" value="{{ $user->Телефон }}" required>
-                                </div>
-                                
-                                <!-- города-->
-                                <div class="input-field">
-                                    <label for="cityDropdown">Город</label>    
-                                    <div class="dropdown-container">
-                                        <div class="dropdown-select" onclick="toggleDropdown()">{{ $curCity }}</div>
-                                        <div class="dropdown-list" id="cityDropdown">
-                                            @foreach($cities as $city)
-                                            <div onclick="selectCity('{{ $city->Наименование }}')">
-                                                {{ $city->Наименование }}
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                    <input type="hidden" id="selectedCity" name="city" required>
-                                </div>
-                                
-                                <div class="input-field">
-                                    <label for="email">Почта</label>
-                                    <input type="text" id="email" value="{{ $user->{'E-Mail'} }}">
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn-save" onclick="saveProfile()">Сохранить</button>
-                    </form>
-                </div>
-
-                <!-- Безопасность --> 
-                <div id="security" class="tab-content">
-                    <form id="changePass" method="POST" action>
-                        <div class="poltos">
-                            <div class="input-field">
-                                <label for="oldPassword">Старый пароль</label>
-                                <input type="password" id="oldPassword">
-                            </div>
-                            <div class="input-field">
-                                <label for="newPassword">Новый пароль</label>
-                                <input type="password" id="newPassword">
-                            </div>
-                            <div class="input-field">
-                                <label for="confirmPassword">Подтвердите пароль</label>
-                                <input type="password" id="confirmPassword">
-                            </div>
-                            <button class="btn-password">Изменить пароль</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Мои события -->
-                <div id="events" class="tab-content">
+                <!-- Cобытия -->
+                <div id="events">
                     <div>
                         <div class="events-container">
                             <!-- Вкладки -->
@@ -592,48 +358,25 @@
     </div>
 </div>
 
+
+<!-- события -->
 <script>
-    function uploadAvatar(event) {
-        console.log('Файл выбран');
-        const file = event.target.files[0];
-        const photoContainer = document.getElementById('photoContainer');
+    function toggleTab(tab) {
+        // Скрываем все события
+        document.getElementById('current-events').style.display = 'none';
+        document.getElementById('past-events').style.display = 'none';
 
-        if (file) {
-            
-            // Проверка типа файла
-            if (!file.type.startsWith('image/')) {
-                alert('Пожалуйста, выберите файл изображения!');
-                return;
-            }
+        // Убираем активный класс с вкладок
+        document.getElementById('current-tab').classList.remove('active');
+        document.getElementById('past-tab').classList.remove('active');
 
-            // Проверка размера файла (до 8 МБ)
-            const maxSize = 8 * 1024 * 1024; // 8MB
-            if (file.size > maxSize) {
-                alert('Размер файла не должен превышать 8 МБ!');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('avatar', file);
-
-            // Отправляем файл на сервер
-            fetch('/lk/upload-avatar', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}' // Laravel CSRF токен
-                },
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Обновляем background-image
-                    photoContainer.style.backgroundImage = `url(${data.avatarUrl})`;
-                }
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-            });
+        // Отображаем соответствующие события и добавляем активный класс на вкладку
+        if (tab === 'current') {
+            document.getElementById('current-events').style.display = 'block';
+            document.getElementById('current-tab').classList.add('active');
+        } else {
+            document.getElementById('past-events').style.display = 'block';
+            document.getElementById('past-tab').classList.add('active');
         }
     }
 </script>
@@ -664,86 +407,6 @@
     progressTextWhite.webkitMaskImage = maskValueWhite;
     progressTextBlack.style.maskImage = maskValueBlack;
     progressTextBlack.webkitMaskImage = maskValueBlack;}
-</script>
-<!-- Основа -->
-<script>
-    // Переключение вкладок
-    function showTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.remove('active');
-        });
-        document.getElementById(tabId).classList.add('active');
-    }
-
-    // Сохранение профиля
-    function saveProfile() {
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
-        
-
-        // Обновляем отображение
-        document.getElementById('profileName').textContent = `${lastName} ${firstName}`;
-        
-
-        // Отправка данных на сервер
-        // Здесь код для сохранения через fetch
-    }
-</script>
-
-<!-- города -->
-<script>
-    function toggleDropdown() {
-        document.getElementById("cityDropdown").classList.toggle("active");
-    }
-
-    function selectCity(city) {
-        document.querySelector(".dropdown-select").innerText = city;
-
-        // Сохранить выбранный город в скрытом поле
-        document.getElementById('selectedCity').value = city;
-
-        toggleDropdown();
-    }
-
-    // Закрытие dropdown при клике вне его
-    document.addEventListener("click", function(event) {
-        if (!event.target.closest(".dropdown-container")) {
-            document.getElementById("cityDropdown").classList.remove("active");
-        }
-    });
-
-
-    // Валидация формы
-    document.getElementById('changeDataForm').addEventListener('submit', function (e) {
-        const city = document.getElementById('selectedCity').value;
-
-        if (!city) {
-            e.preventDefault(); // Отменить отправку формы
-            alert('Пожалуйста, выберите город.');
-        }
-    });
-</script>
-
-<!-- события -->
-<script>
-    function toggleTab(tab) {
-        // Скрываем все события
-        document.getElementById('current-events').style.display = 'none';
-        document.getElementById('past-events').style.display = 'none';
-
-        // Убираем активный класс с вкладок
-        document.getElementById('current-tab').classList.remove('active');
-        document.getElementById('past-tab').classList.remove('active');
-
-        // Отображаем соответствующие события и добавляем активный класс на вкладку
-        if (tab === 'current') {
-            document.getElementById('current-events').style.display = 'block';
-            document.getElementById('current-tab').classList.add('active');
-        } else {
-            document.getElementById('past-events').style.display = 'block';
-            document.getElementById('past-tab').classList.add('active');
-        }
-    }
 </script>
 
 <?php if ($user != null): ?>

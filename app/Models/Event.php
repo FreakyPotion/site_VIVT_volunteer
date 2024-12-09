@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Casts\DateOnlyCast;
 
 class Event extends Model
 {
@@ -13,4 +14,19 @@ class Event extends Model
     public $timestamps = false;
 
     protected $fillable = ['Название', 'Описание', 'Дата', 'Организатор', 'Максимум участников', 'Адрес', 'Изображение', 'Завершено'];
+
+    // Добавляем каст для 'Дата'
+    /*protected $casts = [
+        'Дата' => DateOnlyCast::class, // Преобразование в формат dd.mm.yyyy
+    ];*/
+
+    public function organizer()
+    {
+        return $this->belongsTo(User::class, 'Организатор', 'User_ID');
+    }
+
+    public function requests()
+    {
+        return $this->hasMany(Request::class, 'Event_ID', 'Event_ID');
+    }
 }
