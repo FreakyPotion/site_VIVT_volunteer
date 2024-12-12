@@ -205,4 +205,9 @@ class UsersController extends Controller
         return response()->json(['success' => false, 'message' => 'Пользователь не найден']);
     }
 
+    public function authorizationView()
+    {
+        return view('authorization');
+    }
+
 }

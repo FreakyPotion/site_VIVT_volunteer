@@ -296,4 +296,8 @@ class EventsController extends Controller
 
         return view('see_end', compact('report', 'images', 'user'));
     }
+
+    public function eventCreateView() {
+        return view('create_event');
+    }
 }

@@ -22,17 +22,13 @@ Route::middleware([AuthChecker::class])->group(function ()
     Route::get('/volunteer/events', [EventsController::class, 'load_volunteer_page'])->name('vol.page');
     Route::get('/user/{id}', [UsersController::class, 'load_other_user_data'])->name('other.profile');
     Route::get('/lk', [UsersController::class, 'load_user_data'])->name('profile');
-    Route::get('/newevent', [function () {
-        return view('create_event');
-    }])->name('create.event');
+    Route::get('/newevent', [EventsController::class, 'eventCreateView'])->name('create.event');
     Route::get('/volunteer/events/myrequests', [EventsController::class, 'load_requests'])->name('my.requests');
 });
 
 Route::middleware([AuthCheckerReverse::class])->group(function ()
 { 
-    Route::get('/authorization', [function () {
-        return view('authorization');
-    }])->name('authorization');
+    Route::get('/authorization', [UsersController::class, 'authorizationView'])->name('authorization');
 
     Route::get('/registration', [UsersController::class, 'registration_view']);
 
